@@ -1,0 +1,221 @@
+{
+   "variables": {
+        "user": "{{ env `BUILD_USER` }}",
+        "password": "{{ env `BUILD_PASSWORD` }}",
+	"do_api_token": "{{ env `DO_API_TOKEN` }}",
+	"distro": "ubuntu-14-04-x64",
+        "disk_size": 8000 
+   },
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo '{{user `user`}}' |sudo -S sh '{{.Path}}'",
+      "override": {
+        "virtualbox-iso": {
+          "scripts": [
+            "scripts/base.sh",
+	    "scripts/salt.sh",
+            "scripts/vagrant.sh",
+            "scripts/virtualbox.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+          ]
+        },
+        "vmware-iso": {
+          "scripts": [
+            "scripts/base.sh",
+            "scripts/vagrant.sh",
+            "scripts/vmware.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+          ]
+        },
+	"qemu": {
+          "scripts": [
+            "scripts/base.sh",
+	    "scripts/salt.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+          ]
+	},
+	"digitalocean": {
+	  "scripts": [
+	    "scripts/base.sh",
+	    "scripts/salt.sh",
+	    "scripts/cleanup.sh"
+	  ]
+	}
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "except": "digitalocean",
+      "override": {
+        "virtualbox": {
+          "output": "{{ user `distro` }}-vbox-{{ timestamp }}.box"
+        },
+        "vmware": {
+          "output": "{{ user `distro` }}-vmware-{{ timestamp }}.box"
+        },
+	"qemu": {
+	  "output": "{{ user `distro` }}-qemu-{{ timestamp }}.box"
+	}
+      },
+      "except": [ "digitalocean" ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " passwd/user-fullname={{user `user`}} ",
+        " passwd/user-password-again={{user `password`}} ",
+        " passwd/user-password={{user `password`}} ",
+        " passwd/username={{user `user`}} ",
+        " locale=en_US<wait>",
+        " netcfg/get_hostname=ubuntu-1404<wait>",
+        " netcfg/get_domain=vagrantup.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": "{{ user `disk_size`}}",
+      "output_directory": "images/{{ user `distro` }}-{{ timestamp  }}",
+      "guest_os_type": "Ubuntu_64",
+      "http_directory": "http",
+      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "ssh_username": "{{user `user`}}",
+      "ssh_password": "{{user `password`}}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
+      ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " passwd/user-fullname={{user `user`}} ",
+        " passwd/user-password-again={{user `password`}} ",
+        " passwd/user-password={{user `password`}} ",
+        " passwd/username={{user `user`}} ",
+        " locale=en_US<wait>",
+        " netcfg/get_hostname=ubuntu-1404<wait>",
+        " netcfg/get_domain=vagrantup.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": "{{ user `disk_size`}}",
+      "guest_os_type": "linux",
+      "http_directory": "http",
+      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "iso_checksum_type": "md5",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "ssh_username": "{{user `user`}}",
+      "ssh_password": "{{user `password`}}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
+      "vmx_data": {
+        "memsize": "512",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    },
+    {
+      "type": "qemu",
+      "vm_name": "{{ user `distro` }}-{{ timestamp  }}",
+      "output_directory": "images/{{ user `distro` }}-{{ timestamp  }}",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "disk_size": "{{ user `disk_size`}}",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_checksum_type": "md5",
+      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "http_directory": "http",
+      "ssh_username": "{{user `user`}}",
+      "ssh_password": "{{user `password`}}",
+      "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
+      "boot_wait": "2s",
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " passwd/user-fullname={{user `user`}} ",
+        " passwd/user-password-again={{user `password`}} ",
+        " passwd/user-password={{user `password`}} ",
+        " passwd/username={{user `user`}} ",
+        " locale=en_US<wait>",
+        " netcfg/get_hostname=ubuntu-1404<wait>",
+        " netcfg/get_domain=vagrantup.com<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+     ]
+   },
+    { 
+      "type": "digitalocean",
+      "api_token": "{{user `do_api_token`}}",
+      "image": "{{user `distro`}}",
+      "snapshot_name": "{{ user `distro` }}-{{ timestamp  }}",
+      "region" : "ams2",
+      "size" : "1gb"
+    }
+  ]
+}
