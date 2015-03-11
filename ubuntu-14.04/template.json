@@ -176,7 +176,7 @@
       "iso_checksum_type": "md5",
       "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
       "http_directory": "http",
-      "headless": true,
+      "headless": false,
       "ssh_username": "{{user `user`}}",
       "ssh_password": "{{user `password`}}",
       "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
@@ -205,7 +205,7 @@
         " netcfg/get_hostname=ubuntu-1404<wait>",
         " netcfg/get_domain=changeme<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-lvm.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
      ]
