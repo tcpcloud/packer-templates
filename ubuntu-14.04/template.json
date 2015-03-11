@@ -176,7 +176,7 @@
       "iso_checksum_type": "md5",
       "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
       "http_directory": "http",
-      "headless": false,
+      "headless": true,
       "ssh_username": "{{user `user`}}",
       "ssh_password": "{{user `password`}}",
       "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
