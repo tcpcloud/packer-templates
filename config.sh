@@ -7,6 +7,6 @@ echo "Please enter provision username: "
 read -r BUILD_USER_INPUT
 export BUILD_USER=$BUILD_USER_INPUT
 echo "Please enter provision password: "
-read -sr BUILD_PASSWORD_INPUT
+read -r BUILD_PASSWORD_INPUT
 export BUILD_PASSWORD=$BUILD_PASSWORD_INPUT
 
