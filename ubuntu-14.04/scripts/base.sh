@@ -1,9 +1,10 @@
-# TODO: move this to packages.sh
+# base packages and setup
 apt-get update
 apt-get -y upgrade
 apt-get -y dist-upgrade
 apt-get -y install linux-headers-$(uname -r)
 apt-get -y install curl
+
 # apt-get -y install cloud-init
 
 # to be removed

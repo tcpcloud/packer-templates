@@ -25,7 +25,7 @@
         "vmware-iso": {
           "scripts": [
             "scripts/base.sh",
-            "scripts/vagrant.sh",
+            "scripts/salt.sh",
             "scripts/vmware.sh",
             "scripts/cleanup.sh",
             "scripts/zerodisk.sh"
@@ -56,13 +56,13 @@
       "except": "digitalocean",
       "override": {
         "virtualbox": {
-          "output": "{{ user `distro` }}-vbox-{{ timestamp }}.box"
+          "output": "images/{{ user `distro` }}-vbox-{{ timestamp }}.box"
         },
         "vmware": {
-          "output": "{{ user `distro` }}-vmware-{{ timestamp }}.box"
+          "output": "images/{{ user `distro` }}-vmware-{{ timestamp }}.box"
         },
 	"qemu": {
-	  "output": "{{ user `distro` }}-qemu-{{ timestamp }}.box"
+	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
 	}
       },
       "except": [ "digitalocean" ]
@@ -93,20 +93,20 @@
         " passwd/username={{user `user`}} ",
         " locale=en_US<wait>",
         " netcfg/get_hostname=ubuntu-1404<wait>",
-        " netcfg/get_domain=vagrantup.com<wait>",
+        " netcfg/get_domain=cloudlab.cz<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-lvm.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "5s",
       "disk_size": "{{ user `disk_size`}}",
-      "output_directory": "images/{{ user `distro` }}-{{ timestamp  }}",
+      "output_directory": "images/{{ user `distro` }}-vbox-{{ timestamp  }}",
       "guest_os_type": "Ubuntu_64",
       "http_directory": "http",
-      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "iso_checksum": "83aabd8dcf1e8f469f3c72fff2375195",
       "iso_checksum_type": "md5",
-      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.2-server-amd64.iso",
       "ssh_username": "{{user `user`}}",
       "ssh_password": "{{user `password`}}",
       "ssh_port": 22,
@@ -143,24 +143,27 @@
         " netcfg/get_hostname=ubuntu-1404<wait>",
         " netcfg/get_domain=changeme<wait>",
         " noapic<wait>",
-        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-lvm.cfg<wait>",
         " -- <wait>",
         "<enter><wait>"
       ],
       "boot_wait": "5s",
       "disk_size": "{{ user `disk_size`}}",
+      "disk_type_id": 4,
+      "vmdk_name": "{{ user `distro`}}",
+      "output_directory": "images/{{ user `distro` }}-vmware-{{ timestamp  }}",
       "guest_os_type": "linux",
       "http_directory": "http",
-      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "iso_checksum": "83aabd8dcf1e8f469f3c72fff2375195",
       "iso_checksum_type": "md5",
-      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.2-server-amd64.iso",
       "ssh_username": "{{user `user`}}",
       "ssh_password": "{{user `password`}}",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '{{user `password`}}'|sudo -S shutdown -P now",
       "vmx_data": {
-        "memsize": "512",
+        "memsize": "1024",
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
@@ -168,13 +171,13 @@
     {
       "type": "qemu",
       "vm_name": "{{ user `distro` }}-{{ timestamp  }}",
-      "output_directory": "images/{{ user `distro` }}-{{ timestamp  }}",
+      "output_directory": "images/{{ user `distro` }}-qemu-{{ timestamp  }}",
       "format": "qcow2",
       "accelerator": "kvm",
       "disk_size": "{{ user `disk_size`}}",
-      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+      "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.2-server-amd64.iso",
       "iso_checksum_type": "md5",
-      "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
+      "iso_checksum": "83aabd8dcf1e8f469f3c72fff2375195",
       "http_directory": "http",
       "headless": true,
       "ssh_username": "{{user `user`}}",
