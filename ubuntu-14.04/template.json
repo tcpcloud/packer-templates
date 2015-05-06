@@ -47,6 +47,11 @@
 	  ]
 	}
       }
+    },
+    {
+      "type": "file",
+      "source": "configs/cloud/cloud.cfg.d/99_tcp.cfg",
+      "destination": "/etc/cloud/cloud.cfg.d/99_tcp.cfg"
     }
   ],
   "post-processors": [
