@@ -3,8 +3,15 @@
 sed -i '/.*security\.ubuntu.com.*/d' /etc/apt/sources.list
 
 apt-get update
+
+# Cleanup old kernels, ensure latest is installed via virtual package
+apt-get purge -y linux-image-* linux-headers-*
+apt-get install -y linux-generic-lts-utopic
+
 apt-get -y upgrade
 apt-get -y dist-upgrade
+
+apt-get autoremove --purge
 
 # Useful tools
 apt-get -y install curl tmux vim-nox byobu iputils-ping traceroute htop
@@ -15,12 +22,6 @@ set -g default-terminal "screen-256color"
 set -g set-titles on
 set -g xterm-keys on
 EOF
-
-# Cleanup old kernels, ensure latest is installed via virtual package
-apt-get purge -y linux-image-* linux-headers-*
-apt-get install -y linux-generic-lts-utopic
-
-apt-get autoremove --purge
 
 # Setup cloud-init
 apt-get -y install cloud-init
