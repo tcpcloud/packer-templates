@@ -4,7 +4,14 @@ apt-get -y upgrade
 apt-get -y dist-upgrade
 
 # Useful tools
-apt-get -y install curl tmux vim-nox byobu
+apt-get -y install curl tmux vim-nox byobu iputils-ping traceroute htop
+
+# Tmux fixes
+cat << 'EOF' >> /etc/tmux.conf
+set -g default-terminal "screen-256color"
+set -g set-titles on
+set -g xterm-keys on
+EOF
 
 # Cleanup old kernels, ensure latest is installed via virtual package
 apt-get purge -y linux-image-* linux-headers-*
