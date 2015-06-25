@@ -1,7 +1,7 @@
 {
    "variables": {
-        "user": "{{ env `BUILD_USER` }}",
-        "password": "{{ env `BUILD_PASSWORD` }}",
+        "user": "root",
+        "password": "ho5uo7Uome5d",
 	"do_api_token": "{{ env `DO_API_TOKEN` }}",
 	"distro": "ubuntu-14-04-x64",
         "disk_size": "8000"
@@ -18,6 +18,7 @@
 	    "scripts/salt.sh",
             "scripts/vagrant.sh",
             "scripts/virtualbox.sh",
+            "scripts/security.sh",
             "scripts/cleanup.sh",
             "scripts/zerodisk.sh"
           ]
@@ -27,6 +28,7 @@
             "scripts/base.sh",
             "scripts/salt.sh",
             "scripts/vmware.sh",
+            "scripts/security.sh",
             "scripts/cleanup.sh",
             "scripts/zerodisk.sh"
           ]
@@ -35,6 +37,7 @@
           "scripts": [
             "scripts/base.sh",
 	    "scripts/salt.sh",
+            "scripts/security.sh",
             "scripts/cleanup.sh",
             "scripts/zerodisk.sh"
           ]
@@ -43,6 +46,7 @@
 	  "scripts": [
 	    "scripts/base.sh",
 	    "scripts/salt.sh",
+            "scripts/security.sh",
 	    "scripts/cleanup.sh"
 	  ]
 	}
@@ -92,10 +96,8 @@
         " kbd-chooser/method=us<wait>",
         " keyboard-configuration/layout=USA<wait>",
         " keyboard-configuration/variant=USA<wait>",
-        " passwd/user-fullname={{user `user`}} ",
-        " passwd/user-password-again={{user `password`}} ",
-        " passwd/user-password={{user `password`}} ",
-        " passwd/username={{user `user`}} ",
+        " passwd/root-password={{user `password`}} ",
+        " passwd/root-password-again={{user `password`}} ",
         " locale=en_US<wait>",
         " netcfg/get_hostname=ubuntu-1404<wait>",
         " netcfg/get_domain=cloudlab.cz<wait>",
@@ -140,10 +142,8 @@
         " kbd-chooser/method=us<wait>",
         " keyboard-configuration/layout=USA<wait>",
         " keyboard-configuration/variant=USA<wait>",
-        " passwd/user-fullname={{user `user`}} ",
-        " passwd/user-password-again={{user `password`}} ",
-        " passwd/user-password={{user `password`}} ",
-        " passwd/username={{user `user`}} ",
+        " passwd/root-password={{user `password`}} ",
+        " passwd/root-password-again={{user `password`}} ",
         " locale=en_US<wait>",
         " netcfg/get_hostname=ubuntu-1404<wait>",
         " netcfg/get_domain=changeme<wait>",
@@ -206,10 +206,8 @@
         " kbd-chooser/method=us<wait>",
         " keyboard-configuration/layout=USA<wait>",
         " keyboard-configuration/variant=USA<wait>",
-        " passwd/user-fullname={{user `user`}} ",
-        " passwd/user-password-again={{user `password`}} ",
-        " passwd/user-password={{user `password`}} ",
-        " passwd/username={{user `user`}} ",
+        " passwd/root-password={{user `password`}} ",
+        " passwd/root-password-again={{user `password`}} ",
         " locale=en_US<wait>",
         " netcfg/get_hostname=ubuntu-1404<wait>",
         " netcfg/get_domain=changeme<wait>",
@@ -219,7 +217,7 @@
         "<enter><wait>"
      ]
    },
-    { 
+    {
       "type": "digitalocean",
       "api_token": "{{user `do_api_token`}}",
       "image": "{{user `distro`}}",

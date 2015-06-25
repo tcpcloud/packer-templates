@@ -17,7 +17,7 @@ EOF
 apt-get purge -y linux-image-* linux-headers-*
 apt-get install -y linux-generic-lts-utopic
 
-apt-get autoremove --purge
+apt-get -y autoremove --purge
 
 # Setup cloud-init
 apt-get -y install cloud-init
