@@ -1,4 +1,4 @@
-apt-get -y autoremove --purge
+apt-get -y autoremove
 apt-get -y clean
 
 echo "cleaning up guest additions"
