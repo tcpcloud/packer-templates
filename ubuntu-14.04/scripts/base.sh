@@ -1,4 +1,7 @@
-# base packages and setup
+## Base packages and setup
+# Remove unwanted ubuntu security repository
+sed -i '/.*security\.ubuntu.com.*/d' /etc/apt/sources.list
+
 apt-get update
 apt-get -y upgrade
 apt-get -y dist-upgrade
