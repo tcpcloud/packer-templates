@@ -13,6 +13,11 @@ apt-get -y dist-upgrade
 
 apt-get autoremove --purge
 
+# Update grub cmdline
+sed -i 's|GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0,115200n8"|g' /etc/default/grub
+sed -i 's|GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX="console=tty0 console=ttyS0,115200n8"|g' /etc/default/grub
+update-grub
+
 # Useful tools
 apt-get -y install curl tmux vim-nox byobu iputils-ping traceroute htop
 
