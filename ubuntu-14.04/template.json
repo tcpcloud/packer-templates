@@ -39,6 +39,14 @@
             "scripts/zerodisk.sh"
           ]
 	},
+	"docker": {
+          "scripts": [
+            "scripts/docker.sh",
+            "scripts/base.sh",
+	    "scripts/salt.sh",
+            "scripts/cleanup.sh"
+          ]
+	},
 	"digitalocean": {
 	  "scripts": [
 	    "scripts/base.sh",
@@ -73,9 +81,17 @@
         },
 	"qemu": {
 	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
+	},
+	"qemu": {
+	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
 	}
       },
-      "except": [ "digitalocean" ]
+      "except": [ "digitalocean", "docker" ]
+    },
+    {
+      "type": "docker-tag",
+      "repository": "cloudlab/ubuntu",
+      "tag": "14.04"
     }
   ],
   "builders": [
@@ -224,7 +240,12 @@
         "<enter><wait>"
      ]
    },
-    { 
+    {
+      "type": "docker",
+      "image": "ubuntu:14.04",
+      "commit": true
+   },
+    {
       "type": "digitalocean",
       "api_token": "{{user `do_api_token`}}",
       "image": "{{user `distro`}}",
