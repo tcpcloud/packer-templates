@@ -91,7 +91,8 @@
     {
       "type": "docker-tag",
       "repository": "cloudlab/ubuntu",
-      "tag": "14.04"
+      "tag": "14.04",
+      "only": ["docker"]
     }
   ],
   "builders": [
