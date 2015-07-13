@@ -2,8 +2,8 @@
 
 apt-get -y install curl
 
-echo "deb [arch=amd64] http://apt.cloudlab.cz/nightly trusty main cloudlab security" >/etc/apt/sources.list
-curl -s http://apt.cloudlab.cz/public.gpg | apt-key add -
+echo "deb [arch=amd64] http://apt.tcpcloud.eu/nightly trusty main security extra tcp" >/etc/apt/sources.list
+curl -s http://apt.tcpcloud.eu/public.gpg | apt-key add -
 
 apt-get update
 
