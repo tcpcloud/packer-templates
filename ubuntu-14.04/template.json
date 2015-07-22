@@ -75,18 +75,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "except": "digitalocean",
-      "override": {
-        "virtualbox": {
-          "output": "images/{{ user `distro` }}-vbox-{{ timestamp }}.box"
-        },
-        "vmware": {
-          "output": "images/{{ user `distro` }}-vmware-{{ timestamp }}.box"
-        },
-	"qemu": {
-	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
-	}
-      },
+      "output": "images/{{ user `distro` }}-{{.Provider}}-{{ timestamp }}.box",
       "except": [ "digitalocean", "docker" ]
     },
     {
