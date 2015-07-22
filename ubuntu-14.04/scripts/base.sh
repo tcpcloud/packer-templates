@@ -32,13 +32,3 @@ EOF
 
 # Setup cloud-init
 apt-get -y install cloud-init
-
-# Hack to be able to upload configuration
-# (because build is done under ubuntu user)
-chown -R root:ubuntu /etc/cloud
-chmod -R g+w /etc/cloud
-
-# to be removed
-#sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=sudo' /etc/sudoers
-#sed -i -e 's/%sudo  ALL=(ALL:ALL) ALL/%sudo  ALL=NOPASSWD:ALL/g' /etc/sudoers
-

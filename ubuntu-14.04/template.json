@@ -85,9 +85,6 @@
         },
 	"qemu": {
 	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
-	},
-	"qemu": {
-	  "output": "images/{{ user `distro` }}-qemu-{{ timestamp }}.box"
 	}
       },
       "except": [ "digitalocean", "docker" ]
@@ -96,6 +93,11 @@
       "type": "docker-tag",
       "repository": "cloudlab/ubuntu",
       "tag": "14.04",
+      "only": ["docker"]
+    },
+    {
+      "type": "docker-save",
+      "path": "images/{{ user `distro` }}-docker-{{ timestamp }}.tar",
       "only": ["docker"]
     }
   ],
