@@ -139,7 +139,7 @@
         [ "modifyvm", "{{.Name}}", "--vrde", "on" ],
         [ "modifyvm", "{{.Name}}", "--vrdeport", "5000-5050" ],
         [ "modifyvm", "{{.Name}}", "--vrdeaddress", "127.0.0.1" ],
-        [ "modifyvm", "{{.Name}}", "--vhwvirtex", "off" ],
+        [ "modifyvm", "{{.Name}}", "--hwvirtex", "off" ],
         [ "modifyvm", "{{.Name}}", "--vtxvpid", "off" ]
       ]
     },
