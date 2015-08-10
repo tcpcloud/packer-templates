@@ -37,6 +37,7 @@
           "scripts": [
             "scripts/base.sh",
 	    "scripts/salt.sh",
+	    "scripts/foreman.sh",
             "scripts/security.sh",
             "scripts/cleanup.sh",
             "scripts/zerodisk.sh"
