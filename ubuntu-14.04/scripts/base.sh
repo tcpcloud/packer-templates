@@ -7,7 +7,7 @@ apt-get update
 # Cleanup old kernels, ensure latest is installed via virtual package
 apt-get purge -y linux-image-* linux-headers-*
 if [ ! -f /tmp/no_install_kernel ]; then
-    apt-get install -y linux-generic-lts-utopic
+    apt-get install -y linux-generic-lts-vivid
 
     # Update grub cmdline
     sed -i 's|GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0,115200n8"|g' /etc/default/grub
