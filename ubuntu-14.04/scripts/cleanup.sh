@@ -2,16 +2,16 @@ apt-get -y autoremove --purge
 apt-get -y clean
 
 echo "cleaning up guest additions"
-rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.?
+rm -rf VBoxGuestAdditions_*.iso VBoxGuestAdditions_*.iso.? || true
 
 echo "cleaning up dhcp leases"
-rm /var/lib/dhcp/*
+rm /var/lib/dhcp/* || true
 
 echo "cleaning up udev rules"
-rm /etc/udev/rules.d/70-persistent-net.rules
-mkdir /etc/udev/rules.d/
-rm -rf /dev/.udev/
-[ -f /lib/udev/rules.d/75-persistent-net-generator.rules ] && rm /lib/udev/rules.d/75-persistent-net-generator.rules
+rm -f /etc/udev/rules.d/70-persistent-net.rules || true
+rm -rf /dev/.udev/ || true
+rm -f /lib/udev/rules.d/75-persistent-net-generator.rules || true
+
 echo "cleaning up minion_id for salt"
-[ -f /etc/salt/minion_id ] &&  rm /etc/salt/minion_id
+rm -f /etc/salt/minion_id || true
 
